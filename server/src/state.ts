@@ -43,10 +43,7 @@ export const addPlayer = (id: string, name: string, roomCode: string): Player =>
   }
 
   // Check if there is a player with the same name in the room.
-  const existingPlayer = rooms.find(
-    (room) => room.roomCode === roomCode && room.playerExistsByName(name)
-  );
-  if (existingPlayer) {
+  if (room.playerExistsByName(name)) {
     throw validationError("Username already exists in room");
   }
 

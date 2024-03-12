@@ -5,26 +5,27 @@
   let name: string, roomCode: string;
 
   const handleClick = () => {
-    if (!name || !roomCode) {
+    if (!name && !roomCode) {
       return;
     }
 
-    // Emit socket event to join a room.
-    $SocketStore.socket.emit(
-      "joinRoom",
-      name,
-      parseInt(roomCode).toString(),
-      (resp: Response) => {
-        if (resp.Error) {
-          console.log(resp.Error.msg);
-          alert(resp.Error.msg);
-          return;
-        }
+    console.log("handling click");
 
-        // On success, update the name and room code in context.
-        SocketStore.setPlayerInfo(name, roomCode);
+    // Emit socket event to join a room.
+    $SocketStore.socket.emit("joinRoom", name, roomCode, (resp) => {
+      console.log("handling response");
+      console.log(resp);
+
+      if (resp.Error) {
+        alert(resp.Error.msg);
+        return;
       }
-    );
+
+      console.log("joined room");
+
+      // On success, update the name and room code in context.
+      SocketStore.setPlayerInfo(name, roomCode);
+    });
   };
 </script>
 

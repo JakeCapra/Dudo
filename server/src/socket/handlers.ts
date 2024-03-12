@@ -35,10 +35,12 @@ export const registerHandlers = (socket: Socket) => {
     try {
       addPlayer(socket, name, roomCode);
     } catch (e: any) {
+      console.error(e, name, roomCode);
       if (e.name === ValidationErrorName) {
         callback({ Error: e });
       } else {
         console.error(e);
+        callback;
       }
       return;
     }
