@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { Notification } from "../../../shared/types";
-import { io } from "../index";
+import { io } from "./init";
 import { Room } from "../room";
 import { getPlayers, addPlayer as stateAddPlayer } from "../state";
 import { validationError } from "./error";
@@ -49,10 +49,7 @@ export const sendNotificationWithoutSender = (
  * @param {Notification}    notification    The notification Object to to sent
  * @param {string}			roomCode        The room code of the room to sent the notification to
  */
-export const sendNotification = (
-  notification: Notification,
-  roomCode: string
-) => {
+export const sendNotification = (notification: Notification, roomCode: string) => {
   io.in(roomCode).emit("notification", notification);
 };
 
@@ -83,10 +80,7 @@ export const notifyWhoseTurn = (room: Room) => {
   }
 
   io.in(room.roomCode).emit("turn", player.playerName);
-  sendNotification(
-    { title: `It is ${player.playerName}'s turn`, description: "" },
-    room.roomCode
-  );
+  sendNotification({ title: `It is ${player.playerName}'s turn`, description: "" }, room.roomCode);
 };
 
 /**

@@ -1,6 +1,5 @@
 {
   "name": "dudo_backend",
-  "main": "dist/app.js",
   "scripts": {
     "dev": "npx nodemon",
     "test": "jest",

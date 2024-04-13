@@ -1,4 +1,4 @@
-import type { Bid, Error, Notification, Player, PlayerBrief, PlayerEndOfRound } from "./types";
+import type { Bid, Error, Notification, PlayerBrief, PlayerEndOfRound } from "./types";
 
 export type Response = {
   Error?: Error;

@@ -1,9 +1,10 @@
 import { CreateRoomResponse, ReconnectResponse, Response } from "../../../shared/socket";
-import type { Bid, Error as _error, EndOfRound, Player } from "../../../shared/types";
-import { Socket, io } from "../index";
+import type { Bid, Error as _error, EndOfRound } from "../../../shared/types";
+import { ClientSocket } from "../index";
 import { getRoom, createRoom as stateCreateRoom, getRoom as stateGetRoom } from "../state";
 import { ValidationErrorName, validationError } from "./error";
-import { addPlayer, notifyWhoseTurn, sendNotification, sendPlayers, startRound } from "./utils";
+import { io } from "./init";
+import { addPlayer, sendNotification, sendPlayers, startRound } from "./utils";
 
 /**
  * Generate a random three character string.
@@ -14,8 +15,10 @@ const generateRoomCode = (): string => {
   return Math.random().toString(36).substring(3, 6);
 };
 
-export const registerHandlers = (socket: Socket) => {
+export const registerHandlers = (socket: ClientSocket) => {
   const createRoom = (name: string, callback: (resp: CreateRoomResponse) => void) => {
+    console.log("handing create room");
+
     const roomCode = generateRoomCode();
     try {
       stateCreateRoom(roomCode);
