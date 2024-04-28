@@ -29,8 +29,7 @@ create table rounds (
 	id serial not null primary key,
 	created_at timestamptz not null default clock_timestamp(),
 	game_id integer not null references games(id),
-	starting_player_id integer not null references players(id),
-	ending_player_id integer references 
+	starting_player_id integer not null references players(id)
 );
 
 create table hands (
