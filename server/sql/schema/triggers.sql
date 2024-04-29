@@ -1,12 +1,8 @@
-create function notify_game_channel(game_id integer, payload text)
-returns void as $$
+create function notify_game_channel (game_id integer, payload text) returns void as $$
 	select pg_notify('games/'||game_id::text, payload);
 $$ language sql;
 
-
-
-create function notify_player() returns trigger 
-as $$
+create function notify_player () returns trigger as $$
 begin
 	select notify_game_channel(
 		new.game_id, 
@@ -17,14 +13,12 @@ end;
 $$ language plpgsql;
 
 create trigger handle_player
-	after insert or update on players
-	for each row
-	execute function notify_player();
+after insert
+or
+update on players for each row
+execute function notify_player ();
 
-
-
-create function notify_rounds() returns trigger
-as $$
+create function notify_rounds () returns trigger as $$
 begin
 	select notify_game_channel(
 		new.game_id,
@@ -35,15 +29,13 @@ end;
 $$ language plpgsql;
 
 create trigger handle_rounds
-	after insert or update on rounds
-	for each row
-	execute function notify_rounds();
-
-
+after insert
+or
+update on rounds for each row
+execute function notify_rounds ();
 
 -- TODO is this needed?
-create function notify_hand() returns trigger
-as $$
+create function notify_hand () returns trigger as $$
 begin
 	select notify_game_channel(
 		new.game_id,
@@ -54,14 +46,12 @@ end;
 $$ language plpgsql;
 
 create trigger handle_hand
-	after insert or update on hands
-	for each row
-	execute function notify_hand();
+after insert
+or
+update on hands for each row
+execute function notify_hand ();
 
-
-
-create function notify_bid() returns trigger
-as $$
+create function notify_bid () returns trigger as $$
 begin
 	select notify_game_channel(
 		-- Get the bid's game ID.
@@ -73,14 +63,12 @@ end;
 $$ language plpgsql;
 
 create trigger handle_bid
-	after insert or update on bids
-	for each row
-	execute function notify_bid();
+after insert
+or
+update on bids for each row
+execute function notify_bid ();
 
-
-
-create function notify_message() returns trigger
-as $$
+create function notify_message () returns trigger as $$
 begin
 	select notify_game_channel(
 		(select game_id from players where id = new.player_id),
@@ -91,6 +79,7 @@ end;
 $$ language plpgsql;
 
 create trigger handle_message
-	after insert or update on messages
-	for each row
-	execute function notify_message();
+after insert
+or
+update on messages for each row
+execute function notify_message ();

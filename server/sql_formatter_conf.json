@@ -1,0 +1,8 @@
+{
+  "language": "postgresql",
+  "dialect": "postgresql",
+  "keywordCase": "lower",
+  "dataTypeCase": "lower",
+  "functionCase": "lower",
+  "identifierCase": "lower"
+}
